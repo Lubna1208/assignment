@@ -1,19 +1,32 @@
 import React from "react";
+import { FaUser, FaFileAlt, FaBars } from "react-icons/fa"; // Using react-icons for simplicity
 
 export default function Sidebar({ collapsed = false, active = "profile", onNavigate = () => {}, onToggle = () => {} }) {
   return (
-    <aside className={`sidebar ${collapsed ? "collapsed" : ""}`} style={{border:"1px solid #ccc", padding:"10px", width: collapsed ? "80px" : "200px"}}>
-      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+    <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
+      <div className="sidebar-header">
         {!collapsed && <strong>Author Dashboard</strong>}
-        <button onClick={onToggle}>{collapsed ? "›" : "‹"}</button>
-      </div>
-      
-      <nav style={{marginTop:"10px"}}>
-        <button style={{display:"block", width:"100%", textAlign:"left", background: active==="profile"?"#eee":"transparent"}} onClick={() => onNavigate("profile")}>
-          Profile
+        <button onClick={onToggle}>
+          {collapsed ? <FaBars /> : "‹"}
         </button>
-        <button style={{display:"block", width:"100%", textAlign:"left", background: active==="articles"?"#eee":"transparent"}} onClick={() => onNavigate("articles")}>
-          My Articles
+      </div>
+
+      <nav className="nav">
+        <button
+          className={active==="profile" ? "active" : ""}
+          onClick={() => onNavigate("profile")}
+          title="Profile"
+        >
+          <FaUser />
+          {!collapsed && "Profile"}
+        </button>
+        <button
+          className={active==="articles" ? "active" : ""}
+          onClick={() => onNavigate("articles")}
+          title="My Articles"
+        >
+          <FaFileAlt />
+          {!collapsed && "My Articles"}
         </button>
       </nav>
     </aside>
