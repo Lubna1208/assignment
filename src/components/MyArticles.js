@@ -12,42 +12,43 @@ export default function MyArticles() {
   const [page, setPage] = useState(1);
   const perPage = 2;
   const pages = Math.ceil(data.length / perPage);
-
   const pageItems = data.slice((page-1)*perPage, page*perPage);
 
-  const badgeStyle = (status) => {
-    if(status==="Published") return {background:"#d1fae5", color:"#065f46", padding:"4px 8px", borderRadius:"12px"};
-    if(status==="Draft") return {background:"#fef3c7", color:"#92400e", padding:"4px 8px", borderRadius:"12px"};
-    if(status==="Scheduled") return {background:"#e0f2fe", color:"#1e3a8a", padding:"4px 8px", borderRadius:"12px"};
-    return {};
-  };
+  const badgeClass = (status) => {
+    if(status==="Published") return "pill pill-green";
+    if(status==="Draft") return "pill pill-yellow";
+    if(status==="Scheduled") return "pill pill-blue";
+    return "";
+  }
 
   return (
     <div>
       <h2>My Articles</h2>
-      <table border="1" cellPadding="8" style={{borderCollapse:"collapse", width:"100%", marginBottom:"10px"}}>
-        <thead>
-          <tr style={{background:"#f9fafb"}}>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Last Edited</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pageItems.map((row,i)=>(
-            <tr key={i}>
-              <td>{row.title}</td>
-              <td><span style={badgeStyle(row.status)}>{row.status}</span></td>
-              <td>{row.edited}</td>
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Last Edited</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {pageItems.map((row,i)=>(
+              <tr key={i}>
+                <td>{row.title}</td>
+                <td><span className={badgeClass(row.status)}>{row.status}</span></td>
+                <td>{row.edited}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <div>
+      <div className="pagination">
         <button disabled={page===1} onClick={()=>setPage(page-1)}>Prev</button>
         {Array.from({length:pages},(_,i)=>i+1).map(n=>(
-          <button key={n} onClick={()=>setPage(n)} style={{fontWeight: page===n?"bold":"normal"}}>{n}</button>
+          <button key={n} className={page===n ? "current" : ""} onClick={()=>setPage(n)}>{n}</button>
         ))}
         <button disabled={page===pages} onClick={()=>setPage(page+1)}>Next</button>
       </div>
