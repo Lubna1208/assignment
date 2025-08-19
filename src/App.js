@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Sidebar from "./components/Sidebar";
+import MyArticles from "./components/MyArticles";
+import Profile from "./components/Profile";
 
 function App() {
+  const [active, setActive] = useState("profile");
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{display:"flex", minHeight:"100vh"}}>
+      <Sidebar collapsed={collapsed} active={active} onNavigate={setActive} onToggle={()=>setCollapsed(c=>!c)} />
+      <main style={{flex:1, padding:"20px"}}>
+        {active==="profile" ? <Profile/> : <MyArticles/>}
+      </main>
     </div>
   );
 }
